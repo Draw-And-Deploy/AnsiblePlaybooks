@@ -76,4 +76,8 @@
 
         [Install]
         WantedBy=multi-user.target
-  
+  - name: Restart the service 
+    services:
+      name: api_dnd
+      state: restarted
+      enabled: yes
