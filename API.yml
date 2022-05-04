@@ -55,7 +55,7 @@
       mode: 0644
   
   - name: Restart the service 
-    services:
+    service:
       name: api_dnd
       state: restarted
       enabled: yes
