@@ -1,0 +1,17 @@
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/testegiovana/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name  www.localhost.com;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        root /var/www/frontend;
+        location /login {
+                try_files $uri index.html;
+        }
