@@ -9,8 +9,12 @@
 
   - name: Installing packages
     package:
-      name: ["python3-pip", "python3-virtualvenv", "git"]
+      name: "{{ item }}"
       state: latest
+    with_items:
+    - python3-pip
+    - python3-virtualenv
+    - git
     
   - name: Git clone repository
     git:
@@ -27,15 +31,22 @@
 
   - name: Installing pip packages
     pip:
-      name: ["fastapi", "uvicorn", "gunicorn"]
+      name: "{{ item }}"
       state: present
       virtualenv: /api/venv
-    
+    with_items:
+    - uvicorn
+    - fastapi
+    - gunicorn
+
   - name: Creating error files
     file:
-      path: ["/api/access_log", "/api/error_log"]
+      path: "{{ item }}"
       state: touch
       mode: "0733"
+    with_items:
+    - "/api/access_log"
+    - "/api/error_log"
 
   - name: Creating gunicorn config file
     copy:
