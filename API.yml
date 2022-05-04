@@ -9,13 +9,9 @@
 
   - name: Installing packages
     package:
-      name: "{{ item }}"
+      name: ["python3-pip", "python3-virtualvenv", "git"]
       state: latest
-    with_items:
-    - python3-pip
-    - python3-virtualenv
-    - git
-
+    
   - name: Git clone repository
     git:
       repo: https://github.com/draw-and-deploy/api
@@ -23,24 +19,23 @@
       clone: yes
       update: yes
 
+  - name: Create directory for user scripts
+    file:
+      path: /terraform_api_dirs
+      state: directory
+      mode: 0733
+
   - name: Installing pip packages
     pip:
-      name: "{{ item }}"
+      name: ["fastapi", "uvicorn", "gunicorn"]
       state: present
       virtualenv: /api/venv
-    with_items:
-    - fastapi
-    - uvicorn
-    - gunicorn
-
+    
   - name: Creating error files
     file:
-      path: "{{ item }}"
+      path: ["/api/access_log", "/api/error_log"]
       state: touch
       mode: "0733"
-    with_items:
-    - "/api/access_log"
-    - "/api/error_log"
 
   - name: Creating gunicorn config file
     copy:
