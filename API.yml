@@ -44,38 +44,16 @@
 
   - name: Creating gunicorn config file
     copy:
-      dest: "/api/gunicorn_config.py"
-      content: |
-        from multiprocessing import cpu_count
-
-        # Socket Path
-        bind = 'unix:/api/gunicorn.sock'
-
-        # Worker Options
-        workers = cpu_count() + 1
-        worker_class = 'uvicorn.workers.UvicornWorker'
-
-        # Logging Options
-        loglevel = 'debug'
-        accesslog = '/api/access_log'
-        errorlog =  '/api/error_log'
+      src: /playbooks/Config/gunicorn_config.py
+      dest: /api/gunicorn_config.py
+      mode: 0644
 
   - name: Creating systemd file
     copy:
-      dest: "/etc/systemd/system/api_dnd.service"
-      content: |
-        [Unit]
-        Description=API para a tela de Drag and Drop
-        After=network.target
-
-        [Service]
-        User=ubuntu
-        WorkingDirectory=/api/
-        ExecStart=/api/venv/bin/gunicorn -c gunicorn_config.py -b :8000 main:app
-        Restart=always
-
-        [Install]
-        WantedBy=multi-user.target
+      src: /playbooks/Config/api_dnd.service
+      dest: /etc/systemd/system/api_dnd.service        
+      mode: 0644
+  
   - name: Restart the service 
     services:
       name: api_dnd
