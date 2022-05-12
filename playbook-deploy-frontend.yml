@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+  - name: Copiar arqv para DocumentRoot
+    copy:
+      src: /playbooks/front-end.conf
+      dest: /etc/nginx/sites-available
+
+  - name: Copiar arqv para DocumentRoot
+    copy:
+      src: /playbooks/front-end.conf
+      dest: /etc/nginx/sites-enabled
+
+  - name: Comando npm install
+    shell: |
+      cd /frontend/Frontend
+      if [ ! -d /frontend/Frontend/node_modules ]; then
+        npm install
+      fi
+
+  - name: Comando run build
+    shell: |
+      if [ ! -d /frontend/Frontend/build ]; then
+        cd /frontend/Frontend
+        npm run build
+      fi
+
+  - name: Mover arquivo Build para /var/www/frontend
+    shell: |
+      if [ ! -d /var/www/frontend/static ]; then
+        cp -r /frontend/Frontend/build/* /var/www/frontend/
+      fi
+
+  - name: Restarting Nginx
+    service:
+      name: nginx
+      enabled: yes
+      state: restarted
