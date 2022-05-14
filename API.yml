@@ -25,7 +25,7 @@
 
   - name: Create directory for user scripts
     file:
-      path: /terraform_api_dirs
+      path: /drawanddeploy
       state: directory
       mode: 0733
 
@@ -50,13 +50,13 @@
 
   - name: Creating gunicorn config file
     copy:
-      src: /playbooks/Config/gunicorn_config.py
+      src: /playbooks/gunicorn_config.py
       dest: /api/gunicorn_config.py
       mode: 0644
 
   - name: Creating systemd file
     copy:
-      src: /playbooks/Config/api_dnd.service
+      src: /playbooks/api_dnd.service
       dest: /etc/systemd/system/api_dnd.service        
       mode: 0644
   
