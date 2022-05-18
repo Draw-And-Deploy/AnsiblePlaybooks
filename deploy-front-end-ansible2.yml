@@ -3,15 +3,39 @@
   become: yes
 
   tasks:
+  - name:  Instalar nodejs
+    shell: |
+      curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+  - name:  Instalar nodejs
+    shell: |
+      npm -v || apt install -y npm
+
   - name: Copiar arqv para DocumentRoot
     copy:
-      src: /playbooks/front-end.conf
+      src: /playbooks/document-root-nginx.conf
       dest: /etc/nginx/sites-available
 
   - name: Copiar arqv para DocumentRoot
     copy:
-      src: /playbooks/front-end.conf
+      src: /playbooks/document-root-nginx.conf
       dest: /etc/nginx/sites-enabled
+
+  - name: Criar pasta frontend
+    file:
+      path: /frontend
+      state: directory
+
+  - name: Criar pasta frontend
+    file:
+      path: /var/www/frontend
+      state: directory
+
+  - name: Clone in repository front-end
+    git:
+      repo: https://github.com/Draw-And-Deploy/Front-End.git
+      dest: /frontend
+      clone: yes
 
   - name: Comando npm install
     shell: |
