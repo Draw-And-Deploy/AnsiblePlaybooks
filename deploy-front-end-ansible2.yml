@@ -10,6 +10,11 @@
   - name:  Instalar nodejs
     shell: |
       npm -v || apt install -y npm
+      
+  - name: Removes "default" site
+    file:
+      path: "/etc/nginx/sites-enabled/default"
+      state: absent
 
   - name: Copiar arqv para DocumentRoot
     copy:
