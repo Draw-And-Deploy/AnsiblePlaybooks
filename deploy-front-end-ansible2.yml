@@ -5,7 +5,7 @@
   tasks:
   - name:  Instalar nodejs
     shell: |
-      curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+      node -v || curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - && apt -y install nodejs
 
   - name:  Instalar nodejs
     shell: |
