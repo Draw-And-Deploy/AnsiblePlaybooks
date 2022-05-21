@@ -38,6 +38,7 @@
     - uvicorn
     - fastapi
     - gunicorn
+    - boto3
 
   - name: Creating error files
     file:
