@@ -45,22 +45,22 @@
 
   - name: Comando npm install
     shell: |
-      cd /frontend/Frontend
-      if [ ! -d /frontend/Frontend/node_modules ]; then
+      cd /frontend/frontend
+      if [ ! -d /frontend/frontend/node_modules ]; then
         npm install
       fi
 
   - name: Comando run build
     shell: |
-      if [ ! -d /frontend/Frontend/build ]; then
-        cd /frontend/Frontend
+      if [ ! -d /frontend/frontend/build ]; then
+        cd /frontend/frontend
         npm run build
       fi
 
   - name: Mover arquivo Build para /var/www/frontend
     shell: |
       if [ ! -d /var/www/frontend/static ]; then
-        cp -r /frontend/Frontend/build/* /var/www/frontend/
+        cp -r /frontend/frontend/build/* /var/www/frontend/
       fi
 
   - name: Restarting Nginx
