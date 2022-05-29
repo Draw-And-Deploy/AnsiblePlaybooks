@@ -51,18 +51,41 @@
 
   - name: Creating gunicorn config file
     copy:
-      src: /playbooks/gunicorn_config.py
+      src: /playbooks/files/gunicorn_config.py
       dest: /api/gunicorn_config.py
       mode: 0644
 
-  - name: Creating systemd file
+  - name: Creating gunicorn.service file
     copy:
-      src: /playbooks/api_dnd.service
-      dest: /etc/systemd/system/api_dnd.service        
+      src: /playbooks/files/gunicorn.service
+      dest: /etc/systemd/system/gunicorn.service        
+      mode: 0644
+
+  - name: Creating gunicorn.socket file
+    copy:
+      src: /playbooks/files/gunicorn.socket
+      dest: /etc/systemd/system/gunicorn.socket
       mode: 0644
   
-  - name: Restart the service 
+  - name: Enable socket
     service:
-      name: api_dnd
+      name: gunicorn.socket
+      state: restarted
+      enabled: yes
+
+  - name: Restart the gunicorn service 
+    service:
+      name: gunicorn.service
+      state: restarted
+      enabled: yes
+
+  - name: Configuring reverse proxy on nginx
+    copy:
+      src: /playbooks/files/nginx.conf
+      dest: /etc/nginx/nginx.conf
+
+  - name: Restarting nginx
+    service:
+      name: nginx
       state: restarted
       enabled: yes

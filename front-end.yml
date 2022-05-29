@@ -18,12 +18,12 @@
 
   - name: Copiar arqv para DocumentRoot
     copy:
-      src: /playbooks/document-root-nginx.conf
+      src: /playbooks/files/document-root-nginx.conf
       dest: /etc/nginx/sites-available
 
   - name: Copiar arqv para DocumentRoot
     copy:
-      src: /playbooks/document-root-nginx.conf
+      src: /playbooks/files/document-root-nginx.conf
       dest: /etc/nginx/sites-enabled
 
   - name: Criar pasta frontend
@@ -61,6 +61,7 @@
     shell: |
       if [ ! -d /var/www/frontend/static ]; then
         cp -r /frontend/frontend/build/* /var/www/frontend/
+        rm -rf /frontend/frontend/build/
       fi
 
   - name: Restarting Nginx
