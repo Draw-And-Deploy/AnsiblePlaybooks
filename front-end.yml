@@ -41,7 +41,7 @@
       repo: https://github.com/Draw-And-Deploy/Front-End.git
       dest: /frontend
       clone: yes
-      force: yes
+      update: yes
 
   - name: Comando npm install
     shell: |
